@@ -27,7 +27,7 @@ export function MyHeader() {
           </nav>
           <div className="flex items-center">
             <CircleUser />
-            <Button variant="link">Sign In</Button>
+            <Button variant="link">Login</Button>
           </div>
         </div>
       </div>

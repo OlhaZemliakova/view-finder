@@ -17,7 +17,7 @@ function formatDate(dateString: string) {
 
 export function MovieCard({ movie }: MovieCardProps) {
   return (
-    <Card className="max-w-[250px] h-[380px] flex flex-col overflow-hidden p-0">
+    <Card className="max-w-[220px] h-[350px] flex flex-col overflow-hidden p-0">
       <div className="h-2/3 relative">
         <img
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
