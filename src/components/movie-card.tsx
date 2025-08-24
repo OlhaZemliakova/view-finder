@@ -17,10 +17,10 @@ function formatDate(dateString: string) {
 
 export function MovieCard({ movie }: MovieCardProps) {
   return (
-    <Card className="max-w-[220px] h-[350px] flex flex-col overflow-hidden p-0">
+    <Card className="w-[220px] h-[350px] flex flex-col overflow-hidden p-0 shrink-0">
       <div className="h-2/3 relative">
         <img
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`}
           className="w-full h-full object-cover"
         />
 
@@ -28,12 +28,12 @@ export function MovieCard({ movie }: MovieCardProps) {
       </div>
 
       <div className="h-1/3 p-2 flex flex-col justify-between">
-        <h2 className="font-semibold text-sm">{movie.title}</h2>
+        <h2 className="font-semibold text-sm line-clamp-1">{movie.title}</h2>
         <p className="text-xs text-muted-foreground">
           Original language: {movie.original_language}
         </p>
         <div className="flex justify-between items-center">
-          <p className="w-10 h-10 flex items-center justify-center rounded-full bg-stone-950 text-yellow-300 text-md">
+          <p className="w-8 h-8 flex items-center justify-center rounded-full bg-stone-950 text-yellow-300 text-md">
             {movie.vote_average.toFixed(1)}
           </p>
           <p className="text-muted-foreground text-xs">

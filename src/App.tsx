@@ -1,28 +1,20 @@
-import "./App.css";
-import { MyFooter } from "./components/my-footer";
-import { MyHeader } from "./components/my-header";
-import { PopularMoviesList } from "./components/popular-movies-list";
-import { SearchComponent } from "./components/search-component";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "@/pages/HomePage";
+import Layout from "./components/layout/layout";
+import SearchResultsPage from "./pages/SearchResultsPage";
+import { LoginPage } from "./pages/auth/LoginPage";
+import { RegistrationPage } from "./pages/auth/RegistrationPage";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <MyHeader />
-      <main>
-        <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
-          <div className="container mx-auto px-4 text-center space-y-4">
-            <h1 className="text-4xl md:text-6xl font-bold">Discover Movies</h1>
-            <p className="text-xl md:text-2xl opacity-90">
-              Find your next favorite film
-            </p>
-            <SearchComponent />
-          </div>
-        </section>
-
-        <PopularMoviesList />
-      </main>
-      <MyFooter />
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="search" element={<SearchResultsPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegistrationPage />} />
+      </Route>
+    </Routes>
   );
 }
 

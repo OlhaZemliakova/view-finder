@@ -9,13 +9,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router-dom";
 
-export function LoginForm({
+export function RegistrationPage({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   return (
-    <div className={cn("flex flex-col gap-6 container mx-auto", className)} {...props}>
+    <div
+      className={cn("flex flex-col gap-6 container mx-auto justify-center min-h-[calc(100vh-22rem)]", className)}
+      {...props}
+    >
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -36,28 +40,22 @@ export function LoginForm({
                 />
               </div>
               <div className="grid gap-3">
-                <div className="flex items-center">
+                
                   <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
+               
                 <Input id="password" type="password" required />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
-                  Login
+                  Sign up
                 </Button>
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
+              Return to{" "}
+              <Link to="/login" className="underline underline-offset-4">
+                Login
+              </Link>
             </div>
           </form>
         </CardContent>

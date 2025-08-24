@@ -3,26 +3,30 @@ import { MovieCard } from "./movie-card";
 import { useMovieStore } from "@/store/movieStore";
 import { LoadingState } from "./loading-state";
 
-export function PopularMoviesList() {
-  const { popularMovies, loadingPopular, errorPopular, fetchPopularMovies } =
-    useMovieStore();
+export function UpcomingMoviesList() {
+  const {
+    upcomingMovies,
+    loadingUpcoming,
+    errorUpcoming,
+    fetchUpcomingMovies,
+  } = useMovieStore();
   useEffect(() => {
-    fetchPopularMovies();
-  }, [fetchPopularMovies]);
+    fetchUpcomingMovies();
+  }, [fetchUpcomingMovies]);
 
-  if (loadingPopular) {
+  if (loadingUpcoming) {
     <LoadingState message="Loading movies..." variant="fullPage" />;
   }
 
-  if (errorPopular) {
-    <p className="text-red-500">{errorPopular}</p>;
+  if (errorUpcoming) {
+    <p className="text-red-500">{errorUpcoming}</p>;
   }
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">What's Popular</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-8">Upcoming Movies</h2>
       <div className="flex gap-4 overflow-x-auto overflow-y-hidden">
-        {popularMovies.map((movie) => (
+        {upcomingMovies.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>

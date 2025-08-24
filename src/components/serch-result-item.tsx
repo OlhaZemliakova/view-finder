@@ -1,0 +1,46 @@
+import type { MovieItem } from "@/types/movieTypes";
+import { Card } from "./ui/card";
+import { Image as ImageIcon } from "lucide-react";
+
+type SearchResultItemProps = {
+  movie: MovieItem;
+};
+
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+export function SearchResultItem({ movie }: SearchResultItemProps) {
+  return (
+    <Card className="container mx-auto p-0 h-[141px] overflow-hidden">
+      <div className="flex">
+        {movie.poster_path ? (
+          <img
+            src={`https://image.tmdb.org/t/p/original${movie.poster_path} `}
+            className="rounded-l-md min-width-[94px] w-[94px] h-[141px]"
+          />
+        ) : (
+          <div className="rounded-l-md w-[94px] h-[141px] bg-gray-200 flex items-center justify-center">
+            <ImageIcon className="text-gray-500" size={32} />
+          </div>
+        )}
+
+        <div className="p-2 flex flex-col w-3/4">
+          <h2 className="font-semibold text-xl">{movie.title}</h2>
+          <p className="text-muted-foreground text-xs">
+            {formatDate(movie.release_date)}
+          </p>
+
+          <div className="overflow-hidden">
+            <p className="line-clamp-3">{movie.overview}</p>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
