@@ -1,21 +1,26 @@
 import type { MovieItem } from "@/types/movieTypes";
 import { Card } from "./ui/card";
 import { Star } from "lucide-react";
+import { formatDate } from "@/helpers/formatDate";
+import { useMovieStore } from "@/store/movieStore";
 
 type MovieCardProps = {
   movie: MovieItem;
 };
 
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 export function MovieCard({ movie }: MovieCardProps) {
+  const { addToWatchlist, removeFromWatchlist, isInWatchlist } =
+    useMovieStore();
+  const inWatchlist = movie ? isInWatchlist(movie.id) : false;
+
+  function handleToggleWatchlist() {
+    if (!movie) return;
+    if (inWatchlist) {
+      removeFromWatchlist(movie.id);
+    } else {
+      addToWatchlist(movie);
+    }
+  }
   return (
     <Card className="w-[220px] h-[350px] flex flex-col overflow-hidden p-0 shrink-0">
       <div className="h-2/3 relative">
@@ -24,7 +29,17 @@ export function MovieCard({ movie }: MovieCardProps) {
           className="w-full h-full object-cover"
         />
 
-        <Star className="w-8 h-8 absolute top-2 right-2 rounded-full bg-slate-50 text-yellow-300 hover:text-red-500 cursor-pointer transition-colors p-2" />
+        <Star
+          onClick={(e) => {
+            e.preventDefault();
+            handleToggleWatchlist();
+          }}
+          className={`w-10 h-10 absolute top-2 right-2 rounded-full cursor-pointer p-2 transition ${
+            inWatchlist
+              ? "bg-yellow-400 text-white"
+              : "bg-slate-700 text-yellow-300 hover:text-red-500"
+          }`}
+        />
       </div>
 
       <div className="h-1/3 p-2 flex flex-col justify-between">
@@ -33,7 +48,7 @@ export function MovieCard({ movie }: MovieCardProps) {
           Original language: {movie.original_language}
         </p>
         <div className="flex justify-between items-center">
-          <p className="w-8 h-8 flex items-center justify-center rounded-full bg-stone-950 text-yellow-300 text-md">
+          <p className="w-8 h-8 flex items-center justify-center rounded-full bg-stone-700 text-yellow-300 text-md">
             {movie.vote_average.toFixed(1)}
           </p>
           <p className="text-muted-foreground text-xs">

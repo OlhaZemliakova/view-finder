@@ -17,7 +17,7 @@ export function RegistrationPage({
 }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("flex flex-col gap-6 container mx-auto justify-center min-h-[calc(100vh-22rem)]", className)}
+      className={cn("flex flex-col gap-6 container mx-auto justify-center min-h-[calc(100vh-22rem)] max-w-md", className)}
       {...props}
     >
       <Card>

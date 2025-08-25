@@ -1,9 +1,9 @@
-import type { MovieItem } from "@/types/movieTypes";
+import type { MovieItem, WatchlistMovie } from "@/types/movieTypes";
 import { Card } from "./ui/card";
 import { Image as ImageIcon } from "lucide-react";
 
 type SearchResultItemProps = {
-  movie: MovieItem;
+  movie: MovieItem | WatchlistMovie;
 };
 
 function formatDate(dateString: string) {
@@ -15,9 +15,9 @@ function formatDate(dateString: string) {
   });
 }
 
-export function SearchResultItem({ movie }: SearchResultItemProps) {
+export function MovieCardHorizontal({ movie }: SearchResultItemProps) {
   return (
-    <Card className="container mx-auto p-0 h-[141px] overflow-hidden">
+    <Card className="container mx-auto p-0 h-[141px] overflow-hidden w-full">
       <div className="flex">
         {movie.poster_path ? (
           <img

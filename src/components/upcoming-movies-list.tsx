@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { MovieCard } from "./movie-card";
 import { useMovieStore } from "@/store/movieStore";
 import { LoadingState } from "./loading-state";
+import { Link } from "react-router-dom";
 
 export function UpcomingMoviesList() {
   const {
@@ -27,7 +28,9 @@ export function UpcomingMoviesList() {
       <h2 className="text-3xl font-bold text-gray-900 mb-8">Upcoming Movies</h2>
       <div className="flex gap-4 overflow-x-auto overflow-y-hidden">
         {upcomingMovies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <Link key={movie.id} to={`/movie/${movie.id}`}>
+            <MovieCard key={movie.id} movie={movie} />
+          </Link>
         ))}
       </div>
     </div>

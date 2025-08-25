@@ -1,5 +1,14 @@
-import { CircleUser } from "lucide-react";
+import { CircleUser, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
 
 export function PageHeader() {
   return (
@@ -15,21 +24,33 @@ export function PageHeader() {
             </div>
           </Link>
           <nav className="hidden md:flex space-x-8">
-            <a
-              href="#"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              Movies
-            </a>
-            <a
-              href="#"
+            <Link
+              to="/tv-shows"
               className="text-gray-700 hover:text-blue-600 transition-colors"
             >
               TV Shows
-            </a>
+            </Link>
           </nav>
           <div className="flex items-center">
-            <CircleUser />
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <CircleUser />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem><Link to="watch-list">Whatchlist</Link></DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Button variant="ghost">
+                    Log out
+                    <LogOut />
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <Link to="/login"> Login</Link>
           </div>
         </div>
