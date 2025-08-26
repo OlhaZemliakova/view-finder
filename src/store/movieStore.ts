@@ -1,6 +1,14 @@
 import { create } from "zustand";
 import { movieService } from "@/services/movieService";
 import type { MovieItem, WatchlistMovie } from "@/types/movieTypes";
+import { database } from "../firebase";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+} from "firebase/firestore";
 
 interface MovieState {
   popularMovies: MovieItem[];
@@ -16,10 +24,12 @@ interface MovieState {
   errorSearch: string | null;
 
   watchlist: WatchlistMovie[];
+  watchlistDocIds: Record<number, string>;
 
-  addToWatchlist: (movie: WatchlistMovie) => void;
-  removeFromWatchlist: (id: number) => void;
+  addToWatchlist: (movie: WatchlistMovie) => Promise<void>;
+  removeFromWatchlist: (id: number) => Promise<void>;
   isInWatchlist: (id: number) => boolean;
+  fetchWatchlist: () => Promise<void>;
 
   fetchPopularMovies: () => Promise<void>;
   fetchUpcomingMovies: () => Promise<void>;
@@ -40,24 +50,59 @@ const initialState = {
   errorSearch: null,
 
   watchlist: [],
+  watchlistDocIds: {},
 };
 
 export const useMovieStore = create<MovieState>((set, get) => ({
   ...initialState,
 
-  addToWatchlist: (movie) => {
-    const { watchlist } = get();
-    if (!watchlist.find((m) => m.id === movie.id)) {
-      set({ watchlist: [...watchlist, movie] });
-    }
+  addToWatchlist: async (movie) => {
+    const { watchlist, watchlistDocIds } = get();
+    if (watchlist.find((m) => m.id === movie.id)) return;
+
+    const watchlistCollection = await addDoc(
+      collection(database, "watchlist"),
+      movie
+    );
+
+    set({
+      watchlist: [...watchlist, movie],
+      watchlistDocIds: {
+        ...watchlistDocIds,
+        [movie.id]: watchlistCollection.id,
+      },
+    });
   },
-  removeFromWatchlist: (id) => {
-    const { watchlist } = get();
-    set({ watchlist: watchlist.filter((m) => m.id !== id) });
+  removeFromWatchlist: async (id) => {
+    const { watchlist, watchlistDocIds } = get();
+    const docId = watchlistDocIds[id];
+    if (docId) {
+      await deleteDoc(doc(database, "watchlist", docId));
+    }
+    const updatedIds = { ...watchlistDocIds };
+    delete updatedIds[id];
+    set({
+      watchlist: watchlist.filter((m) => m.id !== id),
+      watchlistDocIds: updatedIds,
+    });
   },
   isInWatchlist: (id) => {
     return get().watchlist.some((m) => m.id === id);
   },
+  fetchWatchlist: async () => {
+    const snapshot = await getDocs(collection(database, "watchlist"));
+    const movies: WatchlistMovie[] = [];
+    const ids: Record<number, string> = {};
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data() as WatchlistMovie;
+      movies.push(data);
+      ids[data.id] = docSnap.id;
+    });
+
+    set({ watchlist: movies, watchlistDocIds: ids });
+  },
+
   fetchPopularMovies: async () => {
     set({ loadingPopular: true, errorPopular: null });
 
