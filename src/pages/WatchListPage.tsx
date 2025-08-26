@@ -1,9 +1,14 @@
-import { MovieCardHorizontal } from "@/components/movie-card-horizontal";
+import { WatchlistItem } from "@/components/watch-list-item";
 import { Link } from "react-router-dom";
 import { useMovieStore } from "@/store/movieStore";
+import { useEffect } from "react";
 
 export default function WatchlistPage() {
-  const { watchlist } = useMovieStore();
+  const { watchlist, fetchWatchlist } = useMovieStore();
+
+  useEffect(() => {
+    fetchWatchlist();
+  }, [fetchWatchlist]);
 
   if (!watchlist || watchlist.length === 0) {
     return (
@@ -15,10 +20,10 @@ export default function WatchlistPage() {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 p-4 container mx-auto">
+    <div className="flex flex-col gap-4 p-4 container mx-auto">
       {watchlist.map((movie) => (
         <Link key={movie.id} to={`/movie/${movie.id}`}>
-          <MovieCardHorizontal key={movie.id} movie={movie} />
+          <WatchlistItem key={movie.id} movie={movie} />
         </Link>
       ))}
     </div>

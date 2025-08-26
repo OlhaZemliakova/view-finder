@@ -1,7 +1,7 @@
 "use client";
 
 import type { MovieItem } from "@/types/movieTypes";
-import { MovieCardHorizontal } from "./movie-card-horizontal";
+import { SearchResultItem } from "./search-result-item";
 import { Link } from "react-router-dom";
 
 interface SearchResultsListProps {
@@ -24,7 +24,7 @@ export function SearchResultsList({ movies, loading }: SearchResultsListProps) {
     <div className="flex flex-col gap-4">
       {movies.map((movie) => (
         <Link key={movie.id} to={`/movie/${movie.id}`}>
-          <MovieCardHorizontal key={movie.id} movie={movie} />
+          <SearchResultItem key={movie.id} movie={movie} />
         </Link>
       ))}
     </div>
