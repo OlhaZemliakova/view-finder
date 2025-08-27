@@ -21,6 +21,7 @@ export default function WatchlistPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4 container mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Your watchlist</h1>
       {watchlist.map((movie) => (
         <Link key={movie.id} to={`/movie/${movie.id}`}>
           <WatchlistItem key={movie.id} movie={movie} />
