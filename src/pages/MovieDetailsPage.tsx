@@ -38,6 +38,7 @@ export default function MovieDetailsPage() {
         release_date: movie.release_date,
         vote_average: movie.vote_average,
         backdrop_path: movie.backdrop_path,
+        overview: movie.overview,
       });
     }
   }
