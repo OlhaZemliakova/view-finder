@@ -22,11 +22,11 @@ export function MovieCard({ movie }: MovieCardProps) {
     }
   }
   return (
-    <Card className="w-[220px] h-[350px] flex flex-col overflow-hidden p-0 shrink-0">
+    <Card className="w-[150px] h-[300px] flex flex-col overflow-hidden p-0 shrink-0">
       <div className="h-2/3 relative">
         <img
           src={`https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-fill"
         />
 
         <Star
@@ -34,7 +34,7 @@ export function MovieCard({ movie }: MovieCardProps) {
             e.preventDefault();
             handleToggleWatchlist();
           }}
-          className={`w-10 h-10 absolute top-2 right-2 rounded-full cursor-pointer p-2 transition ${
+          className={`w-6 h-6 absolute top-1 right-1 rounded-full cursor-pointer p-1 transition ${
             inWatchlist
               ? "bg-yellow-400 text-white"
               : "bg-slate-700 text-yellow-300 hover:text-red-500"
@@ -48,7 +48,7 @@ export function MovieCard({ movie }: MovieCardProps) {
           Original language: {movie.original_language}
         </p>
         <div className="flex justify-between items-center">
-          <p className="w-8 h-8 flex items-center justify-center rounded-full bg-stone-700 text-yellow-300 text-md">
+          <p className="w-6 h-6 flex items-center justify-center rounded-full bg-stone-700 text-yellow-300 text-xs">
             {movie.vote_average.toFixed(1)}
           </p>
           <p className="text-muted-foreground text-xs">

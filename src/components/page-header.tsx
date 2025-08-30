@@ -9,8 +9,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { useAuthStore } from "@/store/authStore";
 
 export function PageHeader() {
+  const { logout, profile: currentUser } = useAuthStore();
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="container mx-auto px-4">
@@ -23,35 +29,32 @@ export function PageHeader() {
               </span>
             </div>
           </Link>
-          <nav className="hidden md:flex space-x-8">
-            <Link
-              to="/tv-shows"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
-            >
-              TV Shows
-            </Link>
-          </nav>
           <div className="flex items-center">
             <DropdownMenu>
-              <DropdownMenuTrigger>
-                <CircleUser />
+              <DropdownMenuTrigger className="flex items-center space-x-2">
+                <CircleUser className="w-6 h-6" />
+                {currentUser && (
+                  <span className="text-sm font-medium text-gray-800">
+                    {currentUser.firstName} {currentUser.lastName}
+                  </span>
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem><Link to="watch-list">Whatchlist</Link></DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="watch-list">Whatchlist</Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Button variant="ghost">
+                  <Button variant="ghost" onClick={handleLogout}>
                     Log out
                     <LogOut />
                   </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            <Link to="/login"> Login</Link>
           </div>
         </div>
       </div>

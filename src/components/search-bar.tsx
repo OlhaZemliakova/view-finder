@@ -15,12 +15,12 @@ export function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSearch} className="flex gap-2 items-center">
+    <form onSubmit={handleSearch} className="flex gap-2 items-center justify-center">
       <Input
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search for a movie..."
-        className="placeholder:text-gray-100"
+        className="placeholder:text-gray-100 sm:w-2/3"
       />
       <Button type="submit" size="lg">
         Search

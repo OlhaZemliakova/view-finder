@@ -25,7 +25,7 @@ export function UpcomingMoviesList() {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Upcoming Movies</h2>
+      <h2 className="text-2xl font-bold text-gray-900 mb-4">Upcoming Movies</h2>
       <div className="flex gap-4 overflow-x-auto overflow-y-hidden">
         {upcomingMovies.map((movie) => (
           <Link key={movie.id} to={`/movie/${movie.id}`}>

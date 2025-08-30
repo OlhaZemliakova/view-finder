@@ -1,13 +1,15 @@
 import { create } from "zustand";
 import { movieService } from "@/services/movieService";
 import type { MovieItem, WatchlistMovie } from "@/types/movieTypes";
-import { database } from "../firebase";
+import { database, auth } from "../firebase";
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
+  query,
+  where,
 } from "firebase/firestore";
 
 interface MovieState {
@@ -60,9 +62,15 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     const { watchlist, watchlistDocIds } = get();
     if (watchlist.find((m) => m.id === movie.id)) return;
 
+    const user = auth.currentUser;
+    if (!user) return;
+
     const watchlistCollection = await addDoc(
       collection(database, "watchlist"),
-      movie
+      {
+        ...movie,
+        userId: user.uid,
+      }
     );
 
     set({
@@ -90,7 +98,13 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     return get().watchlist.some((m) => m.id === id);
   },
   fetchWatchlist: async () => {
-    const snapshot = await getDocs(collection(database, "watchlist"));
+    const user = auth.currentUser;
+    if (!user) return;
+    const q = query(
+      collection(database, "watchlist"),
+      where("userId", "==", user.uid)
+    );
+    const snapshot = await getDocs(q);
     const movies: WatchlistMovie[] = [];
     const ids: Record<number, string> = {};
 

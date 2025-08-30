@@ -6,6 +6,7 @@ import { LoadingState } from "@/components/loading-state";
 import { formatDate } from "@/helpers/formatDate";
 import { Info, Star } from "lucide-react";
 import { useMovieStore } from "@/store/movieStore";
+import { Card } from "@/components/ui/card";
 
 export default function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -47,8 +48,9 @@ export default function MovieDetailsPage() {
   if (!movie) return <p className="p-4">Movie not found</p>;
 
   return (
-    <div className="bg-stone-200">
-      <div className="flex flex-col md:flex-row container mx-auto justify-between items-center gap-4 p-6">
+    <div className="p-6">
+       <Card>
+      <div className="flex flex-col md:flex-row container mx-auto items-center gap-4 p-6">
         <img
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
           alt={movie.title}
@@ -90,6 +92,9 @@ export default function MovieDetailsPage() {
           </div>
         </div>
       </div>
+    </Card>
+
     </div>
+   
   );
 }

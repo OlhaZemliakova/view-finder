@@ -7,16 +7,24 @@ import { RegistrationPage } from "./pages/auth/RegistrationPage";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
 import TVShowsPage from "./pages/TVShowsPage";
 import WatchlistPage from "./pages/WatchListPage";
+import { ProtectedRoute } from "@/components/protected-route";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="login" element={<LoginPage />} />
+      <Route path="register" element={<RegistrationPage />} />
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <Layout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<HomePage />} />
         <Route path="search" element={<SearchResultsPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegistrationPage />} />
-        <Route path="/movie/:id" element={<MovieDetailsPage />} />
+        <Route path="movie/:id" element={<MovieDetailsPage />} />
         <Route path="tv-shows" element={<TVShowsPage />} />
         <Route path="watch-list" element={<WatchlistPage />} />
       </Route>
