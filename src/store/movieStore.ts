@@ -36,6 +36,8 @@ interface MovieState {
   fetchPopularMovies: () => Promise<void>;
   fetchUpcomingMovies: () => Promise<void>;
   searchMovies: (query: string) => Promise<void>;
+
+  resetStore: () => void;
 }
 
 const initialState = {
@@ -155,5 +157,8 @@ export const useMovieStore = create<MovieState>((set, get) => ({
         loadingSearch: false,
       });
     }
+  },
+  resetStore: () => {
+    set(initialState);
   },
 }));

@@ -31,18 +31,19 @@ export function PageHeader() {
           </Link>
           <div className="flex items-center">
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center space-x-2">
-                <CircleUser className="w-6 h-6" />
-                {currentUser && (
-                  <span className="text-sm font-medium text-gray-800">
-                    {currentUser.firstName} {currentUser.lastName}
-                  </span>
-                )}
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center space-x-2 cursor-pointer">
+                  <CircleUser className="w-6 h-6" />
+                  {currentUser && (
+                    <span className="text-sm font-medium text-gray-800">
+                      {currentUser.firstName} {currentUser.lastName}
+                    </span>
+                  )}
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link to="watch-list">Whatchlist</Link>
                 </DropdownMenuItem>

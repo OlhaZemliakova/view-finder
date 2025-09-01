@@ -14,14 +14,18 @@ export function PageFooter() {
             <h4 className="text-lg font-semibold mb-4">Connect</h4>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://t.me/olha_zemliakova"
                 className="text-gray-400 hover:text-white transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Telegram
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/olha__dev/?next=%2F"
                 className="text-gray-400 hover:text-white transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Instagram
               </a>

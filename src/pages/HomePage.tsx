@@ -1,8 +1,16 @@
 import { UpcomingMoviesList } from "@/components/upcoming-movies-list";
 import { PopularMoviesList } from "@/components/popular-movies-list";
 import { SearchBar } from "@/components/search-bar";
+import { useMovieStore } from "@/store/movieStore";
+import { useEffect } from "react";
 
 function HomePage() {
+  const { fetchWatchlist } = useMovieStore();
+
+  useEffect(() => {
+    fetchWatchlist();
+  }, [fetchWatchlist]);
+
   return (
     <>
       <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">

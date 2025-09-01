@@ -22,7 +22,7 @@ export function SearchBar() {
         placeholder="Search for a movie..."
         className="placeholder:text-gray-100 sm:w-2/3"
       />
-      <Button type="submit" size="lg">
+      <Button type="submit" size="lg" className="cursor-pointer">
         Search
       </Button>
     </form>

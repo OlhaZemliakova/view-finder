@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, database } from "@/firebase";
+import { useMovieStore } from "./movieStore";
 
 interface UserProfile {
   email: string;
@@ -70,7 +71,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Save profile in Firestore
       await setDoc(doc(database, "users", cred.user.uid), {
         firstName,
         lastName,
@@ -93,6 +93,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     const { email, password } = get();
 
     try {
+      useMovieStore.getState().resetStore();
+      
       const cred = await signInWithEmailAndPassword(auth, email, password);
       await get().fetchProfile(cred.user.uid);
 
@@ -110,6 +112,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   logout: async () => {
     await signOut(auth);
+    
+    useMovieStore.getState().resetStore();
+    
     set({
       currentUser: null,
       isAuthenticated: false,
@@ -132,6 +137,9 @@ onAuthStateChanged(auth, async (user) => {
     useAuthStore.setState({ currentUser: user, isAuthenticated: true });
     await useAuthStore.getState().fetchProfile(user.uid);
   } else {
+    
+    useMovieStore.getState().resetStore();
+    
     useAuthStore.setState({
       currentUser: null,
       isAuthenticated: false,
