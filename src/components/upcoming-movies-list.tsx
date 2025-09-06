@@ -3,6 +3,7 @@ import { MovieCard } from "./movie-card";
 import { useMovieStore } from "@/store/movieStore";
 import { LoadingState } from "./loading-state";
 import { Link } from "react-router-dom";
+import { Button } from "./ui/button";
 
 export function UpcomingMoviesList() {
   const {
@@ -32,6 +33,11 @@ export function UpcomingMoviesList() {
             <MovieCard key={movie.id} movie={movie} />
           </Link>
         ))}
+        <div className="flex items-center">
+          <Link to="/movies/upcoming">
+            <Button variant="link"> View More →</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

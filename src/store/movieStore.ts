@@ -14,14 +14,20 @@ import {
 
 interface MovieState {
   popularMovies: MovieItem[];
+  popularPage: number;
+  popularTotalPages: number;
   loadingPopular: boolean;
   errorPopular: string | null;
 
   upcomingMovies: MovieItem[];
+  upcomingPage: number;
+  upcomingTotalPages: number;
   loadingUpcoming: boolean;
   errorUpcoming: string | null;
 
   searchResults: MovieItem[];
+  searchPage: number;
+  searchTotalPages: number;
   loadingSearch: boolean;
   errorSearch: string | null;
 
@@ -33,23 +39,29 @@ interface MovieState {
   isInWatchlist: (id: number) => boolean;
   fetchWatchlist: () => Promise<void>;
 
-  fetchPopularMovies: () => Promise<void>;
-  fetchUpcomingMovies: () => Promise<void>;
-  searchMovies: (query: string) => Promise<void>;
+  fetchPopularMovies: (page?: number) => Promise<void>;
+  fetchUpcomingMovies: (page?: number) => Promise<void>;
+  searchMovies: (query: string, page?: number) => Promise<void>;
 
   resetStore: () => void;
 }
 
 const initialState = {
   popularMovies: [],
+  popularPage: 1,
+  popularTotalPages: 1,
   loadingPopular: false,
   errorPopular: null,
 
   upcomingMovies: [],
+  upcomingPage: 1,
+  upcomingTotalPages: 1,
   loadingUpcoming: false,
   errorUpcoming: null,
 
   searchResults: [],
+  searchPage: 1,
+  searchTotalPages: 1,
   loadingSearch: false,
   errorSearch: null,
 
@@ -119,12 +131,17 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     set({ watchlist: movies, watchlistDocIds: ids });
   },
 
-  fetchPopularMovies: async () => {
+  fetchPopularMovies: async (page = 1) => {
     set({ loadingPopular: true, errorPopular: null });
 
     try {
-      const data = await movieService.getPopularMovies();
-      set({ popularMovies: data.results, loadingPopular: false });
+      const data = await movieService.getPopularMovies(page);
+      set({
+        popularMovies: data.results,
+        popularPage: data.page,
+        loadingPopular: false,
+        popularTotalPages: data.total_pages,
+      });
     } catch (err) {
       set({
         errorPopular: err instanceof Error ? err.message : "Unknown error",
@@ -132,12 +149,17 @@ export const useMovieStore = create<MovieState>((set, get) => ({
       });
     }
   },
-  fetchUpcomingMovies: async () => {
+  fetchUpcomingMovies: async (page = 1) => {
     set({ loadingUpcoming: true, errorUpcoming: null });
 
     try {
-      const data = await movieService.getUpcoming();
-      set({ upcomingMovies: data.results, loadingUpcoming: false });
+      const data = await movieService.getUpcoming(page);
+      set({
+        upcomingMovies: data.results,
+        upcomingPage: data.page,
+        upcomingTotalPages: data.total_pages,
+        loadingUpcoming: false,
+      });
     } catch (err) {
       set({
         errorUpcoming: err instanceof Error ? err.message : "Unknown error",
@@ -145,12 +167,17 @@ export const useMovieStore = create<MovieState>((set, get) => ({
       });
     }
   },
-  searchMovies: async (query: string) => {
+  searchMovies: async (query: string, page = 1) => {
     if (!query.trim()) return;
     set({ loadingSearch: true, errorSearch: null, searchResults: [] });
     try {
-      const data = await movieService.searchMovies(query);
-      set({ searchResults: data.results, loadingSearch: false });
+      const data = await movieService.searchMovies(query, page);
+      set({
+        searchResults: data.results,
+        loadingSearch: false,
+        searchPage: data.page,
+        searchTotalPages: data.total_pages,
+      });
     } catch (err) {
       set({
         errorSearch: err instanceof Error ? err.message : "Unknown error",

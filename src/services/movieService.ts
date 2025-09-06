@@ -17,11 +17,11 @@ async function tmdbFetch(endpoint: string) {
 }
 
 export const movieService = {
-  getPopularMovies: () => tmdbFetch("/movie/popular"),
-  searchMovies: (query: string) =>
-    tmdbFetch(`/search/movie?query=${encodeURIComponent(query)}`),
+  getPopularMovies: (page = 1) => tmdbFetch(`/movie/popular?page=${page}`),
+  getUpcoming: (page = 1) => tmdbFetch(`/movie/upcoming?page=${page}`),
+  searchMovies: (query: string, page = 1) =>
+    tmdbFetch(`/search/movie?query=${encodeURIComponent(query)}&page=${page}`),
   getMovieDetails: (id: number) => tmdbFetch(`/movie/${id}`),
-  getNowPlaying: () => tmdbFetch("/movie/now_playing"),
-  getTopRated: () => tmdbFetch("/movie/top_rated"),
-  getUpcoming: () => tmdbFetch("/movie/upcoming"),
+  getNowPlaying: (page = 1) => tmdbFetch(`/movie/now_playing?page=${page}`),
+  getTopRated: (page = 1) => tmdbFetch(`/movie/top_rated?page=${page}`),
 };
