@@ -8,6 +8,8 @@ import MovieDetailsPage from "./pages/MovieDetailsPage";
 import TVShowsPage from "./pages/TVShowsPage";
 import WatchlistPage from "./pages/WatchListPage";
 import { ProtectedRoute } from "@/components/protected-route";
+import { PopularMoviesPage } from "./pages/PopularMoviesPage";
+import { UpcomingMoviesPage } from "./pages/UpcomingMoviesPage";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="movie/:id" element={<MovieDetailsPage />} />
         <Route path="tv-shows" element={<TVShowsPage />} />
         <Route path="watch-list" element={<WatchlistPage />} />
+        <Route path="/movies/popular" element={<PopularMoviesPage />} />
+        <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
       </Route>
     </Routes>
   );
