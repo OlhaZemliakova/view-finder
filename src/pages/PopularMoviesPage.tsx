@@ -37,7 +37,7 @@ export function PopularMoviesPage() {
 
       {loadingPopular && <p>Loading...</p>}
 
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center sm:justify-start gap-4">
         {popularMovies.map((movie) => (
           <Link key={movie.id} to={`/movie/${movie.id}`}>
           <MovieCard key={movie.id} movie={movie} />

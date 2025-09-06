@@ -13,7 +13,7 @@ function HomePage() {
 
   return (
     <>
-      <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-purple-700 text-white p-8">
         <div className="container mx-auto px-4 text-center space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold">Discover Movies</h1>
           <p className="text-xl md:text-2xl opacity-90">

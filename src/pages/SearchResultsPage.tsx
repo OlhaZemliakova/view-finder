@@ -2,6 +2,15 @@ import { useEffect } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { useMovieStore } from "@/store/movieStore";
 import { SearchResultsList } from "@/components/search-results-list";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+  PaginationEllipsis,
+} from "@/components/ui/pagination";
 import { Button } from "@/components/ui/button";
 
 export default function SearchResultsPage() {
@@ -21,15 +30,9 @@ export default function SearchResultsPage() {
     }
   }, [query, searchMovies]);
 
-  const handlePrev = () => {
-    if (searchPage > 1) {
-      searchMovies(query, searchPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (searchPage < searchTotalPages) {
-      searchMovies(query, searchPage + 1);
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= searchTotalPages) {
+      searchMovies(query, page);
     }
   };
 
@@ -47,20 +50,70 @@ export default function SearchResultsPage() {
       <SearchResultsList movies={searchResults} loading={loadingSearch} />
 
       {/* Pagination Controls */}
-      {searchResults.length > 0 && (
-        <div className="flex justify-center items-center gap-4 mt-6">
-          <Button disabled={searchPage <= 1} onClick={handlePrev}>
-            Prev
-          </Button>
-          <span>
-            Page {searchPage} of {searchTotalPages}
-          </span>
-          <Button
-            disabled={searchPage >= searchTotalPages}
-            onClick={handleNext}
-          >
-            Next
-          </Button>
+      {!loadingSearch && searchResults.length > 0 && (
+        <div className="flex justify-center mt-6">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => goToPage(searchPage - 1)}
+                  aria-disabled={searchPage <= 1}
+                  className={
+                    searchPage <= 1 ? "pointer-events-none opacity-50" : ""
+                  }
+                />
+              </PaginationItem>
+              {searchPage > 2 && (
+                <>
+                  <PaginationItem>
+                    <PaginationLink onClick={() => goToPage(1)}>
+                      1
+                    </PaginationLink>
+                  </PaginationItem>
+                  {searchPage > 3 && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+                </>
+              )}
+              <PaginationItem>
+                <PaginationLink isActive>{searchPage}</PaginationLink>
+              </PaginationItem>
+              {searchPage < searchTotalPages && (
+                <>
+                  {searchPage < searchTotalPages - 1 && (
+                    <PaginationItem>
+                      <PaginationLink onClick={() => goToPage(searchPage + 1)}>
+                        {searchPage + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )}
+                  {searchPage < searchTotalPages - 2 && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+                  <PaginationItem>
+                    <PaginationLink onClick={() => goToPage(searchTotalPages)}>
+                      {searchTotalPages}
+                    </PaginationLink>
+                  </PaginationItem>
+                </>
+              )}
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() => goToPage(searchPage + 1)}
+                  aria-disabled={searchPage >= searchTotalPages}
+                  className={
+                    searchPage >= searchTotalPages
+                      ? "pointer-events-none opacity-50"
+                      : ""
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       )}
     </div>
