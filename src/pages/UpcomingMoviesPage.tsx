@@ -29,6 +29,7 @@ export function UpcomingMoviesPage() {
   const goToPage = (page: number) => {
     if (page >= 1 && page <= upcomingTotalPages) {
       fetchUpcomingMovies(page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 

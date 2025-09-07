@@ -28,6 +28,7 @@ export function PopularMoviesPage() {
   const goToPage = (page: number) => {
     if (page >= 1 && page <= popularTotalPages) {
       fetchPopularMovies(page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 

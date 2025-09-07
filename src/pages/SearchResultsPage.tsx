@@ -33,6 +33,7 @@ export default function SearchResultsPage() {
   const goToPage = (page: number) => {
     if (page >= 1 && page <= searchTotalPages) {
       searchMovies(query, page);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
