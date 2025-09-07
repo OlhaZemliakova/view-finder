@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { AuthLayout } from "@/components/auth-layout/auth-layout";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,10 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { useEffect } from "react";
 
-export function RegistrationPage({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function RegistrationPage() {
   const {
     email,
     setEmail,
@@ -48,13 +45,7 @@ export function RegistrationPage({
   };
 
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-6 container mx-auto justify-center min-h-screen max-w-md",
-        className
-      )}
-      {...props}
-    >
+    <AuthLayout>
       <Card>
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
@@ -151,6 +142,6 @@ export function RegistrationPage({
           </form>
         </CardContent>
       </Card>
-    </div>
+    </AuthLayout>
   );
 }
