@@ -4,7 +4,7 @@ import { movieService } from "@/services/movieService";
 import type { MovieDetailsItem } from "@/types/movieTypes";
 import { LoadingState } from "@/components/loading-state";
 import { formatDate } from "@/helpers/formatDate";
-import { Info, Star } from "lucide-react";
+import { ImageIcon, Info, Star } from "lucide-react";
 import { useMovieStore } from "@/store/movieStore";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,11 +57,18 @@ export default function MovieDetailsPage() {
           </Button>
         </div>
         <div className="flex flex-col md:flex-row container mx-auto items-center gap-4 p-6">
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-            className="w-full sm:w-80 rounded-xl shadow-lg"
-          />
+          {movie.poster_path ? (
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              className="w-full sm:w-80 rounded-xl shadow-lg"
+            />
+          ) : (
+            <div className="rounded-l-md bg-gray-100 flex items-center justify-center">
+              <ImageIcon className="text-gray-500 w-full sm:w-80 h-full" />
+            </div>
+          )}
+
           <div className="space-y-2">
             <div className="flex gap-2">
               <p className="w-10 h-10 rounded-full bg-slate-700 text-yellow-300 p-2">
