@@ -17,7 +17,7 @@ function formatDate(dateString: string) {
 
 export function SearchResultItem({ movie }: SearchResultItemProps) {
   return (
-    <Card className="container mx-auto p-0 h-[141px] overflow-hidden w-full">
+    <Card className="relative mx-auto p-0 h-[141px] overflow-hidden w-full max-w-2xl">
       <div className="flex">
         {movie.poster_path ? (
           <img
@@ -25,7 +25,7 @@ export function SearchResultItem({ movie }: SearchResultItemProps) {
             className="rounded-l-md min-width-[94px] w-[94px] h-[141px]"
           />
         ) : (
-          <div className="rounded-l-md w-[94px] h-[141px] bg-gray-200 flex items-center justify-center">
+          <div className="rounded-l-md w-[94px] h-[141px] bg-gray-100 flex items-center justify-center">
             <ImageIcon className="text-gray-500" size={32} />
           </div>
         )}

@@ -1,9 +1,11 @@
 import { WatchlistItem } from "@/components/watch-list-item";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMovieStore } from "@/store/movieStore";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function WatchlistPage() {
+  const navigate = useNavigate();
   const { watchlist, fetchWatchlist } = useMovieStore();
 
   useEffect(() => {
@@ -22,6 +24,11 @@ export default function WatchlistPage() {
   return (
     <div className="flex flex-col gap-4 p-4 container mx-auto">
       <h1 className="text-2xl font-bold mb-4">Your watchlist</h1>
+       <div className="ml-10 mt-2">
+          <Button variant="link" onClick={() => navigate(-1)}>
+            ← Back
+          </Button>
+        </div>
       {watchlist.map((movie) => (
         <Link key={movie.id} to={`/movie/${movie.id}`}>
           <WatchlistItem key={movie.id} movie={movie} />

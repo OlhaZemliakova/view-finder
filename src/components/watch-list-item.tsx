@@ -21,7 +21,7 @@ export function WatchlistItem({ movie }: WatchlistItemProps) {
   const { removeFromWatchlist } = useMovieStore();
 
   return (
-    <Card className="relative container mx-auto p-0 h-[120px] overflow-hidden w-full">
+    <Card className="relative mx-auto p-0 h-[120px] overflow-hidden w-full max-w-2xl">
       <div className="flex">
         {movie.poster_path ? (
           <img
@@ -29,13 +29,13 @@ export function WatchlistItem({ movie }: WatchlistItemProps) {
             className="rounded-l-md min-width-[94px] w-[94px] h-[141px]"
           />
         ) : (
-          <div className="rounded-l-md w-[94px] h-[141px] bg-gray-200 flex items-center justify-center">
+          <div className="rounded-l-md w-[94px] h-[141px] bg-gray-100 flex items-center justify-center">
             <ImageIcon className="text-gray-500" size={32} />
           </div>
         )}
 
         <div className="p-2 flex flex-col w-3/4">
-          <h2 className="font-semibold text-xl">{movie.title}</h2>
+          <h2 className="font-semibold text-lg sm:text-xl truncate">{movie.title}</h2>
 
           <p className="text-muted-foreground text-xs">
             {formatDate(movie.release_date)}
