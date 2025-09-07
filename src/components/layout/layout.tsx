@@ -4,9 +4,9 @@ import { PageFooter } from "../page-footer";
 
 export default function Layout() {
   return (
-    <div className="bg-gray-200">
+    <div className="min-h-screen bg-gray-200 flex flex-col">
       <PageHeader />
-      <main>
+      <main className="flex-grow">
         <Outlet />
       </main>
       <PageFooter />
