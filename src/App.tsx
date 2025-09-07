@@ -5,7 +5,6 @@ import SearchResultsPage from "./pages/SearchResultsPage";
 import { LoginPage } from "./pages/auth/LoginPage";
 import { RegistrationPage } from "./pages/auth/RegistrationPage";
 import MovieDetailsPage from "./pages/MovieDetailsPage";
-import TVShowsPage from "./pages/TVShowsPage";
 import WatchlistPage from "./pages/WatchListPage";
 import { ProtectedRoute } from "@/components/protected-route";
 import { PopularMoviesPage } from "./pages/PopularMoviesPage";
@@ -27,7 +26,6 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="search" element={<SearchResultsPage />} />
         <Route path="movie/:id" element={<MovieDetailsPage />} />
-        <Route path="tv-shows" element={<TVShowsPage />} />
         <Route path="watch-list" element={<WatchlistPage />} />
         <Route path="/movies/popular" element={<PopularMoviesPage />} />
         <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />

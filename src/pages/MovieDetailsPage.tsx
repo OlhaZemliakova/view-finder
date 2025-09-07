@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { movieService } from "@/services/movieService";
 import type { MovieDetailsItem } from "@/types/movieTypes";
 import { LoadingState } from "@/components/loading-state";
@@ -7,9 +7,11 @@ import { formatDate } from "@/helpers/formatDate";
 import { Info, Star } from "lucide-react";
 import { useMovieStore } from "@/store/movieStore";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetailsItem | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +33,6 @@ export default function MovieDetailsPage() {
     if (inWatchlist) {
       removeFromWatchlist(movie.id);
     } else {
-      //   addToWatchlist(movie);
       addToWatchlist({
         id: movie.id,
         title: movie.title,
@@ -49,52 +50,56 @@ export default function MovieDetailsPage() {
 
   return (
     <div className="p-6">
-       <Card>
-      <div className="flex flex-col md:flex-row container mx-auto items-center gap-4 p-6">
-        <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
-          className="w-full sm:w-80 rounded-xl shadow-lg"
-        />
-        <div className="space-y-2">
-          <div className="flex gap-2">
-            <p className="w-10 h-10 rounded-full bg-slate-700 text-yellow-300 p-2">
-              {movie.vote_average.toFixed(1)}
+      <Card>
+        <div className="ml-10 mt-2">
+          <Button variant="outline" onClick={() => navigate(-1)}>
+            ← Back
+          </Button>
+        </div>
+        <div className="flex flex-col md:flex-row container mx-auto items-center gap-4 p-6">
+          <img
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            className="w-full sm:w-80 rounded-xl shadow-lg"
+          />
+          <div className="space-y-2">
+            <div className="flex gap-2">
+              <p className="w-10 h-10 rounded-full bg-slate-700 text-yellow-300 p-2">
+                {movie.vote_average.toFixed(1)}
+              </p>
+              <Star
+                onClick={handleToggleWatchlist}
+                className={`w-10 h-10 rounded-full cursor-pointer p-2 transition ${
+                  inWatchlist
+                    ? "bg-yellow-400 text-white"
+                    : "bg-slate-700 text-yellow-300 hover:text-red-500"
+                }`}
+              />
+            </div>
+
+            <h1 className="text-3xl font-bold">{movie.title}</h1>
+
+            <p className="italic text-gray-500">{movie.tagline}</p>
+            <p className="mt-2">
+              <strong>Genres:</strong>{" "}
+              {movie.genres.map((g) => g.name).join(", ")}
             </p>
-            <Star
-              onClick={handleToggleWatchlist}
-              className={`w-10 h-10 rounded-full cursor-pointer p-2 transition ${
-                inWatchlist
-                  ? "bg-yellow-400 text-white"
-                  : "bg-slate-700 text-yellow-300 hover:text-red-500"
-              }`}
-            />
-          </div>
-
-          <h1 className="text-3xl font-bold">{movie.title}</h1>
-
-          <p className="italic text-gray-500">{movie.tagline}</p>
-          <p className="mt-2">
-            <strong>Genres:</strong>{" "}
-            {movie.genres.map((g) => g.name).join(", ")}
-          </p>
-          <p className="mt-4">
-            <strong>Overview:</strong> {movie.overview}
-          </p>
-          <p className="mt-4">
-            <strong>Release date:</strong> {formatDate(movie.release_date)}
-          </p>
-          <p>
-            <strong>Runtime:</strong> {movie.runtime} min
-          </p>
-          <div className="flex gap-2">
-            <Info /> Information about rating based on {movie.vote_count} votes
+            <p className="mt-4">
+              <strong>Overview:</strong> {movie.overview}
+            </p>
+            <p className="mt-4">
+              <strong>Release date:</strong> {formatDate(movie.release_date)}
+            </p>
+            <p>
+              <strong>Runtime:</strong> {movie.runtime} min
+            </p>
+            <div className="flex gap-2">
+              <Info /> Information about rating based on {movie.vote_count}{" "}
+              votes
+            </div>
           </div>
         </div>
-      </div>
-    </Card>
-
+      </Card>
     </div>
-   
   );
 }
