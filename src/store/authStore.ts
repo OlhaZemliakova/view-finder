@@ -17,6 +17,7 @@ interface UserProfile {
 }
 
 interface AuthStore {
+  isLoading: boolean;
   email: string;
   password: string;
   confirmPassword: string;
@@ -27,6 +28,7 @@ interface AuthStore {
   currentUser: User | null;
   profile: UserProfile | null;
 
+  setLoading: (value: boolean) => void;
   setEmail: (email: string) => void;
   setPassword: (password: string) => void;
   setConfirmPassword: (confirmPassword: string) => void;
@@ -41,6 +43,7 @@ interface AuthStore {
 }
 
 const initialState = {
+  isLoading: true,
   email: "",
   password: "",
   confirmPassword: "",
@@ -54,6 +57,7 @@ const initialState = {
 
 export const useAuthStore = create<AuthStore>((set, get) => ({
   ...initialState,
+  setLoading: (isLoading) => set({ isLoading }),
   setEmail: (email) => set({ email }),
   setPassword: (password) => set({ password }),
   setConfirmPassword: (confirmPassword) => set({ confirmPassword }),
@@ -94,7 +98,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
     try {
       useMovieStore.getState().resetStore();
-      
+
       const cred = await signInWithEmailAndPassword(auth, email, password);
       await get().fetchProfile(cred.user.uid);
 
@@ -112,9 +116,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   logout: async () => {
     await signOut(auth);
-    
+
     useMovieStore.getState().resetStore();
-    
+
     set({
       currentUser: null,
       isAuthenticated: false,
@@ -134,16 +138,20 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    useAuthStore.setState({ currentUser: user, isAuthenticated: true });
+    useAuthStore.setState({
+      currentUser: user,
+      isAuthenticated: true,
+      isLoading: false,
+    });
     await useAuthStore.getState().fetchProfile(user.uid);
   } else {
-    
     useMovieStore.getState().resetStore();
-    
+
     useAuthStore.setState({
       currentUser: null,
       isAuthenticated: false,
       profile: null,
+      isLoading: false,
     });
   }
 });
