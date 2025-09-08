@@ -1,27 +1,49 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { movieService } from "@/services/movieService";
-import type { MovieDetailsItem } from "@/types/movieTypes";
+import type { MovieDetailsItem, Video } from "@/types/movieTypes";
 import { LoadingState } from "@/components/loading-state";
 import { formatDate } from "@/helpers/formatDate";
-import { ImageIcon, Info, Star } from "lucide-react";
+import { ImageIcon, Info, Play, Star } from "lucide-react";
 import { useMovieStore } from "@/store/movieStore";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetailsItem | null>(null);
   const [loading, setLoading] = useState(true);
+  const [trailerKey, setTrailerKey] = useState<string | null>(null);
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
 
   useEffect(() => {
     if (!id) return;
-    setLoading(true);
-    movieService.getMovieDetails(Number(id)).then((data) => {
-      setMovie(data);
+
+    async function fetchData() {
+      setLoading(true);
+      const movieData = await movieService.getMovieDetails(Number(id));
+      const videosData = await movieService.getMovieVideos(Number(id));
+
+      setMovie(movieData);
+
+      const trailer = videosData.results.find(
+        (v: Video) => v.type === "Trailer" && v.site === "YouTube"
+      );
+      if (trailer) {
+        setTrailerKey(trailer.key);
+      }
+
       setLoading(false);
-    });
+    }
+
+    fetchData();
   }, [id]);
 
   const { addToWatchlist, removeFromWatchlist, isInWatchlist } =
@@ -104,6 +126,33 @@ export default function MovieDetailsPage() {
               <Info /> Information about rating based on {movie.vote_count}{" "}
               votes
             </div>
+            {trailerKey && (
+              <>
+                <Button
+                  onClick={() => setIsTrailerOpen(true)}
+                  className="flex gap-2 items-center"
+                >
+                  <Play className="w-4 h-4" /> Watch Trailer
+                </Button>
+
+                <Dialog open={isTrailerOpen} onOpenChange={setIsTrailerOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{movie.title}</DialogTitle>
+                    </DialogHeader>
+                    <div className="aspect-video w-full">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${trailerKey}`}
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="w-full h-full"
+                      />
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </>
+            )}
           </div>
         </div>
       </Card>

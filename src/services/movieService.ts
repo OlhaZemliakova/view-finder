@@ -24,4 +24,5 @@ export const movieService = {
   getMovieDetails: (id: number) => tmdbFetch(`/movie/${id}`),
   getNowPlaying: (page = 1) => tmdbFetch(`/movie/now_playing?page=${page}`),
   getTopRated: (page = 1) => tmdbFetch(`/movie/top_rated?page=${page}`),
+  getMovieVideos: (id: number) => tmdbFetch(`/movie/${id}/videos`),
 };

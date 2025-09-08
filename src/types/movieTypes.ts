@@ -88,3 +88,11 @@ export type WatchlistMovie = {
   backdrop_path: string;
   overview: string;
 };
+
+export interface Video {
+  id: string;
+  key: string;
+  name: string;
+  site: "YouTube" | "Vimeo";
+  type: "Trailer" | "Teaser" | "Clip" | "Featurette";
+}
