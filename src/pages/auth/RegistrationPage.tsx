@@ -48,9 +48,9 @@ export function RegistrationPage() {
     <AuthLayout>
       <Card>
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Register a new account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your details below to create your account.
             {error && <p className="text-red-500">{error}</p>}
           </CardDescription>
         </CardHeader>
